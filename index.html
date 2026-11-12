@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Staffing Call: a 3-minute judgment exercise</title>
+<meta name="description" content="A three-minute decision exercise for senior leaders: make a staffing call, see the AI analysis, then see what it couldn’t.">
+<meta name="theme-color" content="#F3F1FA">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Staffing Call: a 3-minute judgment exercise">
+<meta property="og:description" content="Make a call, see the AI’s analysis, then see what it couldn’t. A Leading with AI micro-simulation from Golden Key Group.">
+<!-- Replace with your full GitHub Pages address once published, e.g. https://USERNAME.github.io/REPO/og-image.png -->
+<meta property="og:image" content="og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230C0920'/><rect x='10' y='10' width='12' height='12' transform='rotate(45 16 16)' fill='%23D8B25A'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --void:#F3F1FA; --plum:#3A3168; --violet:#6A55C9;
+  --gold:#C9A04A; --gold-hi:#8A6614; --gold-soft:rgba(201,160,74,.16); --gold-line:rgba(201,160,74,.45);
+  --ink:#1E1838; --muted:#5B5479; --faint:rgba(58,49,104,.14);
+  --glass:#FFFFFF; --glass-hi:#FFFFFF; --deep:#2A2350;
+  --machine:#2D6A85; --machine-soft:rgba(45,106,133,.10);
+  --display:"Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --sans:"Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none !important}
+html{scroll-padding-top:env(safe-area-inset-top,0px); background:var(--void)}
+html,body{margin:0}
+body{
+  background:var(--void); color:var(--ink); font-family:var(--sans);
+  font-size:16.5px; line-height:1.55; -webkit-font-smoothing:antialiased; min-height:100%;
+}
+
+
+.wrap{position:relative; max-width:620px; margin:0 auto; padding:30px 22px 64px}
+
+/* ---------- progress: a gold thread with three keys ---------- */
+.progress{display:flex; align-items:center; margin-bottom:10px}
+.progress span{flex:1; height:1px; background:var(--faint); position:relative}
+.progress span::after{content:""; position:absolute; right:0; top:50%; width:9px; height:9px;
+  transform:translate(50%,-50%) rotate(45deg); border:1px solid var(--muted); background:var(--void)}
+.progress span.done, .progress span.on{background:var(--gold)}
+.progress span.done::after, .progress span.on::after{border-color:var(--gold); background:var(--gold)}
+.progress span.on::after{box-shadow:0 0 0 4px rgba(216,178,90,.18), 0 0 18px rgba(216,178,90,.6)}
+.progress-label{font-size:13px; color:var(--muted); margin:0 0 30px; letter-spacing:.02em}
+
+.screen{display:none}
+.screen.active{display:block}
+@media (prefers-reduced-motion: no-preference){
+  .screen.active{animation:enter .6s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes enter{from{opacity:0; transform:translateY(10px); filter:blur(4px)} to{opacity:1; transform:none; filter:none}}
+}
+
+h1,h2,h3{font-family:var(--display); font-weight:700; margin:0; letter-spacing:-.02em}
+h1{font-size:clamp(34px,9vw,54px); line-height:1.08; font-weight:800; letter-spacing:-.03em}
+h2{font-size:clamp(26px,6.6vw,36px); line-height:1.15; margin-bottom:16px}
+h3{font-size:19px; line-height:1.3; margin-bottom:8px}
+p{margin:0 0 14px}
+.lede{font-size:18.5px; line-height:1.6; color:var(--ink)}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+h1:focus, h2:focus{outline:none}
+
+/* ---------- cover ---------- */
+.cover{padding-top:9vh}
+.cover h1{margin-bottom:26px}
+.cover h1 .line2{display:block}
+.cover .lede{margin-bottom:30px; max-width:36ch; color:var(--muted)}
+.facts-inline{display:flex; flex-wrap:wrap; gap:8px 22px; color:var(--ink); font-size:14px; margin:0 0 40px; padding:0; list-style:none}
+.facts-inline li::before{content:""; display:inline-block; width:6px; height:6px; transform:rotate(45deg); background:var(--gold); margin-right:10px; vertical-align:2px}
+
+/* ---------- glass surfaces ---------- */
+.glass{background:var(--glass); border:1px solid var(--gold-line);
+  -webkit-backdrop-filter:blur(18px) saturate(140%); backdrop-filter:blur(18px) saturate(140%)}
+
+.situation{padding:18px 18px; margin:0 0 4px; border-radius:2px 18px 2px 18px}
+.situation .lede{margin:0}
+.knowns{list-style:none; padding:0; margin:0 0 34px}
+.knowns li{padding:12px 0 12px 22px; border-bottom:1px solid var(--faint); font-size:15.5px; position:relative; color:var(--muted)}
+.knowns li::before{content:""; position:absolute; left:2px; top:21px; width:7px; height:7px; transform:rotate(45deg); border:1px solid var(--gold)}
+
+.q{font-family:var(--display); font-weight:700; letter-spacing:-.015em; font-size:21px; line-height:1.3; margin:0 0 16px}
+
+/* ---------- choices ---------- */
+.choices{display:grid; gap:8px; margin-bottom:28px}
+.choice{
+  display:block; width:100%; text-align:left; cursor:pointer; position:relative;
+  background:var(--glass); color:var(--ink); border:1px solid var(--faint);
+  -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+  border-radius:3px; padding:15px 18px 15px 20px; font:inherit;
+  transition:border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.choice::before{content:""; position:absolute; left:0; top:10px; bottom:10px; width:2px; background:transparent; transition:background .2s ease, box-shadow .2s ease}
+.choice strong{display:block; font-weight:700; font-size:15.5px; margin-bottom:3px}
+.choice span{display:block; font-size:14px; color:var(--muted); line-height:1.45}
+.choice:hover{border-color:var(--gold-line); background:#FBFAFE; box-shadow:0 8px 24px -14px rgba(58,49,104,.45)}
+.choice[aria-pressed="true"]{border-color:var(--gold); background:linear-gradient(100deg, rgba(216,178,90,.26), rgba(255,255,255,.92) 70%)}
+.choice[aria-pressed="true"]::before{background:var(--gold); box-shadow:0 0 14px rgba(216,178,90,.8)}
+.choice:focus-visible, .btn:focus-visible, .conf button:focus-visible, .chip:focus-visible, .notes-toggle:focus-visible{outline:2px solid var(--gold-hi); outline-offset:3px}
+.choices.three{grid-template-columns:1fr}
+@media (min-width:560px){ .choices.three{grid-template-columns:repeat(3,1fr)} }
+
+/* ---------- confidence: a scale, not a button row ---------- */
+.conf-wrap{margin:0 0 34px}
+.conf-label{font-size:15px; margin-bottom:12px}
+.conf{display:grid; grid-template-columns:repeat(5,1fr); gap:0; border:1px solid var(--faint); border-radius:3px; overflow:hidden;
+  -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); background:var(--glass)}
+.conf button{
+  font-family:var(--display); font-weight:700; font-size:18px; padding:11px 0; cursor:pointer;
+  background:transparent; color:var(--muted); border:none; border-left:1px solid var(--faint); transition:background .2s, color .2s;
+}
+.conf button:first-child{border-left:none}
+.conf button:hover{color:var(--ink)}
+.conf button[data-val="1"]{--c:#C8423B; --t:#FFFFFF}
+.conf button[data-val="2"]{--c:#E07A2E; --t:#1E1838}
+.conf button[data-val="3"]{--c:#E2BE4E; --t:#1E1838}
+.conf button[data-val="4"]{--c:#8DB043; --t:#1E1838}
+.conf button[data-val="5"]{--c:#2F8F57; --t:#FFFFFF}
+.conf button:hover{background:var(--c); color:var(--t)}
+.conf button[aria-pressed="true"]{background:var(--c); color:var(--t); box-shadow:inset 0 0 0 2px rgba(30,24,56,.55)}
+.conf-ends{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:8px}
+
+/* ---------- buttons ---------- */
+.btn{
+  position:relative; overflow:hidden;
+  display:inline-flex; align-items:center; justify-content:center;
+  font:inherit; font-weight:700; font-size:15.5px; letter-spacing:.01em; padding:17px 24px; border-radius:3px; cursor:pointer;
+  background:linear-gradient(180deg, var(--plum), var(--deep)); color:#FFFFFF; border:none; text-decoration:none; width:100%;
+  box-shadow:0 12px 28px -12px rgba(58,49,104,.7), inset 0 -2px 0 var(--gold);
+}
+.btn::after{content:""; position:absolute; top:0; bottom:0; left:-60%; width:40%;
+  background:linear-gradient(100deg, transparent, rgba(242,212,136,.45), transparent); transform:skewX(-18deg)}
+@media (prefers-reduced-motion: no-preference){ .btn:not([disabled]):hover::after{animation:sheen .9s ease} }
+@keyframes sheen{to{left:130%}}
+.btn[disabled]{opacity:.55; cursor:not-allowed; box-shadow:none}
+.btn.ghost{background:#FFFFFF; color:var(--ink); border:1px solid var(--gold-line); box-shadow:none}
+.btn.ghost::after{display:none}
+.hint{font-size:13px; color:var(--muted); text-align:center; margin-top:12px; min-height:1.2em}
+
+/* ---------- the machine's memo ---------- */
+.memo{
+  position:relative; border-radius:3px; padding:22px 20px 16px; margin:0 0 24px;
+  background:linear-gradient(160deg, rgba(45,106,133,.09), rgba(255,255,255,.82) 40%);
+  border:1px solid rgba(45,106,133,.28);
+  -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px);
+}
+.memo::before{content:""; position:absolute; left:-1px; right:-1px; top:-1px; height:2px; background:linear-gradient(90deg, transparent, var(--machine), transparent)}
+.memo-head{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; font-size:13px; color:var(--machine); font-weight:700; letter-spacing:.02em}
+.memo-head .badge{border:1px solid rgba(45,106,133,.4); color:var(--machine); padding:3px 10px; border-radius:2px; white-space:nowrap; font-weight:600}
+.memo h3{font-family:var(--sans); font-weight:700; font-size:19px; line-height:1.35; margin-bottom:18px}
+.metrics{display:grid; grid-template-columns:1fr 1fr; gap:0; border-top:1px solid rgba(45,106,133,.2); margin-bottom:16px}
+.metric{padding:12px 4px 12px 0; border-bottom:1px solid rgba(45,106,133,.2)}
+.metric:nth-child(odd){padding-right:12px; border-right:1px solid rgba(45,106,133,.2)}
+.metric:nth-child(even){padding-left:14px}
+.metric b{display:block; font-family:var(--display); font-size:26px; font-weight:700; letter-spacing:-.02em; font-variant-numeric:lining-nums tabular-nums; color:var(--ink); line-height:1.05}
+.metric small{display:block; font-size:12.5px; color:var(--muted); line-height:1.35; margin-top:4px}
+.util{margin:6px 0 14px}
+.util-row{display:flex; justify-content:space-between; font-size:13.5px; color:var(--muted); margin-bottom:8px}
+.bar{height:10px; border-radius:1px; background:rgba(58,49,104,.10); overflow:hidden; display:flex}
+.bar .measured{background:linear-gradient(90deg, rgba(45,106,133,.5), var(--machine)); width:42%}
+.bar .hidden-work{width:0; background:repeating-linear-gradient(135deg, var(--gold) 0 5px, rgba(216,178,90,.25) 5px 9px); box-shadow:0 0 16px rgba(216,178,90,.5)}
+.rationale{font-size:15px; color:var(--ink); margin-bottom:10px}
+.notes-toggle{font:inherit; font-size:12.5px; color:var(--muted); background:none; border:none; padding:6px 0; cursor:pointer;
+  text-decoration:underline; text-underline-offset:3px; text-decoration-color:rgba(169,162,198,.4)}
+.notes{display:none; font-size:13px; color:var(--muted); border-top:1px dashed rgba(45,106,133,.25); margin-top:6px; padding-top:10px}
+.notes.open{display:block}
+
+.aside-quote{font-family:var(--display); font-weight:500; font-size:18px; line-height:1.5; color:var(--ink); margin:0 0 30px; padding:0 0 0 18px; border-left:1px solid var(--gold)}
+.aside-quote cite{display:block; font-style:normal; font-family:var(--sans); font-size:13px; color:var(--muted); margin-top:8px}
+
+.chips-wrap{display:none; margin:-12px 0 28px}
+.chips-wrap.open{display:block}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chip{font:inherit; font-size:13.5px; padding:9px 13px; border-radius:2px; cursor:pointer; background:var(--glass); color:var(--ink); border:1px solid var(--faint)}
+.chip[aria-pressed="true"]{border-color:var(--gold); background:var(--gold-soft); color:var(--gold-hi)}
+
+/* ---------- reveal ---------- */
+.reveal-block{border-radius:3px; padding:22px 20px; margin-bottom:24px}
+.legend{display:flex; flex-wrap:wrap; gap:6px 18px; font-size:12.5px; color:var(--muted); margin-top:10px}
+.legend i{display:inline-block; width:14px; height:8px; margin-right:7px; vertical-align:1px}
+.legend .m{background:var(--machine)}
+.legend .h{background:repeating-linear-gradient(135deg, var(--gold) 0 3px, transparent 3px 5px); outline:1px solid var(--gold)}
+.complication{margin-top:18px; padding-top:16px; border-top:1px solid var(--faint)}
+
+.gradient{margin:18px 0 6px}
+.track{display:grid; grid-template-columns:repeat(5,1fr); position:relative}
+.track::before{content:""; position:absolute; left:10%; right:10%; top:5px; height:1px; background:var(--faint)}
+.step{text-align:center; font-size:12px; color:var(--muted); padding-top:20px; position:relative}
+.step::before{content:""; position:absolute; top:1px; left:50%; width:9px; height:9px; transform:translateX(-50%) rotate(45deg); border:1px solid var(--muted); background:var(--void)}
+.step.here{color:var(--gold-hi); font-weight:700}
+.step.here::before{width:13px; height:13px; top:-1px; border-color:var(--gold); background:var(--gold); box-shadow:0 0 0 5px rgba(216,178,90,.15), 0 0 20px rgba(216,178,90,.7)}
+.grad-ends{display:flex; justify-content:space-between; font-size:11.5px; color:var(--muted); margin-top:6px}
+.grad-note{font-size:12.5px; color:var(--muted); margin-top:12px}
+
+.signals{list-style:none; padding:0; margin:0 0 34px}
+.signals li{padding:16px 0; border-bottom:1px solid var(--faint); font-size:15.5px}
+.signals li:first-child{border-top:1px solid var(--faint)}
+.signals .k{display:block; font-family:var(--display); font-weight:700; font-size:14px; color:var(--gold-hi); margin-bottom:3px}
+
+.trust{display:grid; grid-template-columns:1fr 1fr; gap:0; margin:14px 0 10px; border-top:1px solid var(--faint)}
+.trust div{padding:13px 12px 13px 0; border-bottom:1px solid var(--faint)}
+.trust div:nth-child(odd){border-right:1px solid var(--faint)}
+.trust div:nth-child(even){padding-left:14px}
+.trust b{display:block; font-size:14px}
+.trust em{font-style:normal; color:var(--gold-hi); font-weight:700; font-size:13.5px}
+.trust small{display:block; font-size:12.5px; color:var(--muted); line-height:1.4; margin-top:4px}
+
+.principle{margin:44px 0 34px; padding:8px 0; text-align:center}
+.principle p.big{font-family:var(--display); font-weight:800; letter-spacing:-.03em; font-size:clamp(28px,7vw,40px); line-height:1.15; margin-bottom:16px;
+  background:linear-gradient(100deg, var(--ink) 20%, var(--gold-hi) 55%, var(--ink) 90%); background-size:220% 100%;
+  -webkit-background-clip:text; background-clip:text; color:transparent}
+@media (prefers-reduced-motion: no-preference){ .principle p.big{animation:shine 6s ease-in-out infinite alternate} }
+@keyframes shine{from{background-position:100% 0} to{background-position:0 0}}
+.principle p.sub{color:var(--muted); margin:0; font-size:15px}
+.principle::before, .principle::after{content:""; display:block; width:9px; height:9px; margin:0 auto 28px; transform:rotate(45deg); background:var(--gold)}
+.principle::after{margin:28px auto 0}
+
+.takeback{border-radius:2px 22px 2px 22px; padding:22px 20px; margin-bottom:24px;
+  background:var(--deep); border:1px solid var(--deep)}
+.takeback{color:#FFFFFF}
+.takeback .k{font-size:13px; color:#FFFFFF; opacity:.85; margin-bottom:8px; font-weight:600}
+.takeback p{font-family:var(--display); font-weight:600; letter-spacing:-.01em; font-size:20px; line-height:1.4; margin:0}
+
+.actions{display:grid; gap:10px}
+@media (min-width:560px){ .actions{grid-template-columns:1fr 1fr} }
+footer{margin-top:40px; font-size:12px; color:var(--muted)}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <div class="progress" id="progress" aria-hidden="true" hidden><span></span><span></span><span></span></div>
+  <p class="progress-label" id="progressLabel" hidden></p>
+
+  <!-- COVER -->
+  <section class="screen active cover" id="s0" aria-labelledby="t0">
+    <h1 id="t0">You have ten days and a 9% cut. <span class="line2">An AI has already run the numbers.</span></h1>
+    <p class="lede">A three-minute decision exercise for senior leaders. Make a call, see the analysis, then see what it couldn’t.</p>
+    <ul class="facts-inline">
+      <li>About 3 minutes</li>
+      <li>No facilitator needed</li>
+      <li>No answer key</li>
+    </ul>
+    <button class="btn" data-go="1">Start the exercise</button>
+    <p class="hint">Nothing you choose is saved or sent anywhere.</p>
+  </section>
+
+  <!-- SCREEN 1: BASELINE -->
+  <section class="screen" id="s1" aria-labelledby="t1">
+    <h2 id="t1">Your call, before any analysis</h2>
+    <div class="situation glass">
+      <p class="lede" style="margin:0">You lead a 220-person public-sector program. A 9% funding cut lands in 90 days, about 18 positions. Leadership has ruled out across-the-board cuts, and senior leaders want your recommendation in ten business days.</p>
+    </div>
+    <ul class="knowns">
+      <li>You have five years of workload, overtime, and service-level data.</li>
+      <li>Two units have new leaders. One is improving fast, but the data still shows its old performance.</li>
+      <li>One specialized six-person team rarely shows up in workload reports.</li>
+    </ul>
+
+    <p class="q" id="q1">What would you do first?</p>
+    <div class="choices" role="group" aria-labelledby="q1" id="baselineChoices">
+      <button class="choice" data-val="data" aria-pressed="false"><strong>Pull the data</strong><span>Get utilization, workload, and cost by unit.</span></button>
+      <button class="choice" data-val="context" aria-pressed="false"><strong>Talk to the people closest to the work</strong><span>Unit leads, the specialized team’s lead, employee representatives.</span></button>
+      <button class="choice" data-val="purpose" aria-pressed="false"><strong>Set the non-negotiables</strong><span>Decide which mission capabilities must survive before anyone ranks positions.</span></button>
+      <button class="choice" data-val="ai" aria-pressed="false"><strong>Have the AI model it</strong><span>Ask analytics to run scenarios and rank positions by mission impact.</span></button>
+    </div>
+
+    <div class="conf-wrap">
+      <p class="conf-label" id="c1">How confident are you that you’ll get this decision right?</p>
+      <div class="conf" role="group" aria-labelledby="c1" data-conf="before">
+        <button aria-pressed="false" data-val="1">1</button><button aria-pressed="false" data-val="2">2</button><button aria-pressed="false" data-val="3">3</button><button aria-pressed="false" data-val="4">4</button><button aria-pressed="false" data-val="5">5</button>
+      </div>
+      <div class="conf-ends"><span>Not confident</span><span>Very confident</span></div>
+    </div>
+
+    <button class="btn" id="next1" disabled data-go="2">Continue to the analysis</button>
+    <p class="hint" id="hint1">Choose a first move and a confidence level.</p>
+  </section>
+
+  <!-- SCREEN 2: AI INTERVENTION -->
+  <section class="screen" id="s2" aria-labelledby="t2">
+    <h2 id="t2">Day three: the analysis arrives</h2>
+    <p class="muted">Your analytics team ran the program’s approved AI tool against five years of workforce data. This is what came back.</p>
+
+    <article class="memo" aria-label="AI staffing recommendation">
+      <div class="memo-head"><span>AI staffing analysis</span><span class="badge">Confidence: high</span></div>
+      <h3>Eliminate or hold vacant 18 positions, concentrated in three units.</h3>
+      <div class="metrics">
+        <div class="metric"><b>18 of 18</b><small>Positions identified to meet the 9% target</small></div>
+        <div class="metric"><b>2–4%</b><small>Projected service-level impact</small></div>
+        <div class="metric"><b>4 of 6</b><small>Cuts to the specialized team</small></div>
+        <div class="metric"><b>5 yrs</b><small>Consistent pattern across all data</small></div>
+      </div>
+      <div class="util">
+        <div class="util-row"><span>Specialized team utilization</span><span><b style="color:var(--ink)">42%</b></span></div>
+        <div class="bar" aria-label="Utilization 42 percent"><div class="measured"></div></div>
+      </div>
+      <p class="rationale">The specialized team shows the lowest measurable workload relative to cost of any unit. Reducing it to two positions retains most of its logged output.</p>
+      <button class="notes-toggle" id="notesToggle" aria-expanded="false" aria-controls="notes">Show data notes</button>
+      <div class="notes" id="notes">Recommendation is based on available workload, staffing, overtime, service, and performance data. Recent leadership changes and low-frequency contingency work are incompletely represented.</div>
+    </article>
+
+    <blockquote class="aside-quote">“This gives us a defensible, consistent basis. We can adjust obvious anomalies during review.”<cite>A senior executive on your leadership team</cite></blockquote>
+
+    <p class="q" id="q2">Do you accept, modify, or reject this recommendation?</p>
+    <div class="choices three" role="group" aria-labelledby="q2" id="decisionChoices">
+      <button class="choice" data-val="accept" aria-pressed="false"><strong>Accept</strong><span>Send it forward as written.</span></button>
+      <button class="choice" data-val="modify" aria-pressed="false"><strong>Modify</strong><span>Keep the analysis, change the call.</span></button>
+      <button class="choice" data-val="reject" aria-pressed="false"><strong>Reject</strong><span>Set it aside and build your own.</span></button>
+    </div>
+
+    <div class="chips-wrap" id="chipsWrap">
+      <p class="conf-label" id="chipsQ">What would you change? Pick any that apply.</p>
+      <div class="chips" role="group" aria-labelledby="chipsQ" id="chips">
+        <button class="chip" aria-pressed="false" data-val="vacant">Hold the 4 as vacancies, not eliminations</button>
+        <button class="chip" aria-pressed="false" data-val="protect">Protect the specialized team for now</button>
+        <button class="chip" aria-pressed="false" data-val="test">Test the team’s size against a readiness exercise</button>
+        <button class="chip" aria-pressed="false" data-val="consult">Consult employee representatives first</button>
+      </div>
+    </div>
+
+    <div class="conf-wrap">
+      <p class="conf-label" id="c2">How confident are you now?</p>
+      <div class="conf" role="group" aria-labelledby="c2" data-conf="after">
+        <button aria-pressed="false" data-val="1">1</button><button aria-pressed="false" data-val="2">2</button><button aria-pressed="false" data-val="3">3</button><button aria-pressed="false" data-val="4">4</button><button aria-pressed="false" data-val="5">5</button>
+      </div>
+      <div class="conf-ends"><span>Not confident</span><span>Very confident</span></div>
+    </div>
+
+    <button class="btn" id="next2" disabled data-go="3">See what the numbers missed</button>
+    <p class="hint" id="hint2">Choose accept, modify, or reject, and a confidence level.</p>
+  </section>
+
+  <!-- SCREEN 3: REVEAL + DIAGNOSTIC -->
+  <section class="screen" id="s3" aria-labelledby="t3">
+    <h2 id="t3">What the numbers couldn’t see</h2>
+
+    <div class="reveal-block glass">
+      <div class="util-row"><span>Specialized team: where the time actually goes</span></div>
+      <div class="bar" style="height:14px"><div class="measured"></div><div class="hidden-work" id="hiddenWork"></div></div>
+      <div class="legend"><span><i class="m"></i>Billed workload, 42%</span><span><i class="h"></i>Drills, certification, standby</span></div>
+      <p style="margin-top:16px">This team is one of the few groups trained to restore critical systems during a major outage. Most of its time goes to staying ready, work that never appears in a billing cycle and so reads as idle. The contingency hasn’t been activated in four years.</p>
+      <div class="complication">
+        <h3>And it isn’t that simple</h3>
+        <p style="margin:0">No one has ever tested whether six people are actually needed. The team lead strongly opposes cuts and has both real context and a personal stake. The AI’s numbers aren’t wrong. They’re incomplete.</p>
+      </div>
+    </div>
+
+    <h2 style="font-size:26px">Your read</h2>
+    <div class="reveal-block glass" style="padding-bottom:16px">
+      <h3 id="gradTitle"></h3>
+      <p id="gradBody" style="font-size:16px"></p>
+      <div class="gradient" aria-label="AI Authority Gradient">
+        <div class="track" id="track">
+          <div class="step" data-l="advise">Advise</div>
+          <div class="step" data-l="draft">Draft</div>
+          <div class="step" data-l="recommend">Recommend</div>
+          <div class="step" data-l="decide">Decide</div>
+          <div class="step" data-l="act">Act</div>
+        </div>
+        <div class="grad-ends"><span>Human decides</span><span>AI executes</span></div>
+        <p class="grad-note">The AI Authority Gradient isn’t a maturity ladder. Moving right isn’t better or worse; the right level depends on the task.</p>
+      </div>
+    </div>
+
+    <ul class="signals" id="signals"></ul>
+
+    <h3>Why this decision calls for close human judgment</h3>
+    <div class="trust">
+      <div><b>Consequence</b><em>High</em><small>A readiness gap surfaces during the crisis, not before it.</small></div>
+      <div><b>Reversibility</b><em>Low</em><small>Eliminated roles and lost expertise are slow to rebuild. Vacancies are easier.</small></div>
+      <div><b>Uncertainty</b><em>High</em><small>Rare events, a team size that’s never been tested.</small></div>
+      <div><b>Detectability</b><em>Low</em><small>Nothing in the data flags the error until the outage does.</small></div>
+    </div>
+    <p class="small muted">Trust is situational, not automatic.</p>
+
+    <div class="principle">
+      <p class="big">AI generates predictions. Leaders own judgment and accountability.</p>
+      <p class="sub">Better prediction changes judgment. It doesn’t eliminate it.</p>
+    </div>
+
+    <div class="takeback">
+      <p class="k">A question for your next leadership meeting</p>
+      <p>Where in our organization is AI already deciding by default, and who would notice if it were wrong?</p>
+    </div>
+
+    <div class="actions">
+      <button class="btn ghost" id="restart">Try it again</button>
+      <a class="btn" href="mailto:jspencer@goldenkeygroup.com?subject=Leading%20with%20AI">Talk with Golden Key Group</a>
+    </div>
+
+    <footer>Adapted from Judgment Lab 1, The Staffing Recommendation, in Golden Key Group’s Leading with AI program.</footer>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  var state = {baseline:null, before:null, decision:null, after:null, mods:[], notesOpened:false, t2start:0, t2secs:0};
+  var labels = ["Your call","The analysis","The reveal"];
+  var screens = [0,1,2,3].map(function(i){return document.getElementById("s"+i)});
+  var progress = document.getElementById("progress");
+  var progressLabel = document.getElementById("progressLabel");
+
+  function show(n){
+    screens.forEach(function(s,i){ s.classList.toggle("active", i===n); });
+    if(n===0){ progress.hidden = true; progressLabel.hidden = true; }
+    else{
+      progress.hidden = false; progressLabel.hidden = false;
+      Array.prototype.forEach.call(progress.children, function(sp,i){
+        sp.className = i < n-1 ? "done" : (i===n-1 ? "on" : "");
+      });
+      progressLabel.textContent = "Step " + n + " of 3: " + labels[n-1];
+    }
+    if(n===2) state.t2start = Date.now();
+    document.body.classList.toggle("revealed", n===3);
+    if(n===3){ state.t2secs = Math.max(1, Math.round((Date.now()-state.t2start)/1000)); render(); }
+    window.scrollTo({top:0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
+    var h = screens[n].querySelector("h1,h2"); if(h){ h.setAttribute("tabindex","-1"); h.focus({preventScroll:true}); }
+  }
+
+  document.querySelectorAll("[data-go]").forEach(function(b){
+    b.addEventListener("click", function(){ if(!b.disabled) show(parseInt(b.getAttribute("data-go"),10)); });
+  });
+
+  function single(groupEl, onPick){
+    groupEl.querySelectorAll("button").forEach(function(b){
+      b.addEventListener("click", function(){
+        groupEl.querySelectorAll("button").forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+        b.setAttribute("aria-pressed","true");
+        onPick(b.getAttribute("data-val"));
+      });
+    });
+  }
+
+  function check1(){ var ok = state.baseline && state.before; document.getElementById("next1").disabled = !ok; document.getElementById("hint1").textContent = ok ? "" : "Choose a first move and a confidence level."; }
+  function check2(){ var ok = state.decision && state.after; document.getElementById("next2").disabled = !ok; document.getElementById("hint2").textContent = ok ? "" : "Choose accept, modify, or reject, and a confidence level."; }
+
+  single(document.getElementById("baselineChoices"), function(v){ state.baseline=v; check1(); });
+  single(document.querySelector('[data-conf="before"]'), function(v){ state.before=+v; check1(); });
+  single(document.getElementById("decisionChoices"), function(v){
+    state.decision=v;
+    document.getElementById("chipsWrap").classList.toggle("open", v==="modify");
+    check2();
+  });
+  single(document.querySelector('[data-conf="after"]'), function(v){ state.after=+v; check2(); });
+
+  document.querySelectorAll("#chips .chip").forEach(function(c){
+    c.addEventListener("click", function(){
+      var on = c.getAttribute("aria-pressed")!=="true";
+      c.setAttribute("aria-pressed", on ? "true" : "false");
+      var v = c.getAttribute("data-val");
+      state.mods = state.mods.filter(function(m){return m!==v});
+      if(on) state.mods.push(v);
+    });
+  });
+
+  var toggle = document.getElementById("notesToggle"), notes = document.getElementById("notes");
+  toggle.addEventListener("click", function(){
+    var open = !notes.classList.contains("open");
+    notes.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", open);
+    toggle.textContent = open ? "Hide data notes" : "Show data notes";
+    if(open) state.notesOpened = true;
+  });
+
+  var firstMove = {
+    data:"Your first move was to pull the data.",
+    context:"Your first move was to talk to the people closest to the work.",
+    purpose:"Your first move was to set the mission non-negotiables.",
+    ai:"Your first move was to have the AI model it."
+  };
+  var humanFirst = function(){ return state.baseline==="context" || state.baseline==="purpose"; };
+
+  var modText = {
+    vacant:"hold the four as vacancies",
+    protect:"protect the team for now",
+    test:"test the team’s size against a readiness exercise",
+    consult:"consult employee representatives first"
+  };
+
+  function render(){
+    var d = state.decision, level, title, body;
+    if(d==="accept"){
+      level="decide";
+      title="In practice, you let the AI decide.";
+      body="You reviewed the recommendation, but nothing about the decision changed after it arrived. That’s nominal oversight: a human in the loop without the information or intent to intervene. Accountability for the outcome still sits with you.";
+    } else if(d==="modify"){
+      level="recommend";
+      title="You used the AI as a recommender.";
+      body="You kept the analysis and made the call yourself. That’s a common shape for a high-consequence decision, but Recommend isn’t automatically the safe middle. What matters is what you checked before you changed it.";
+    } else {
+      level="advise";
+      title="You held the AI to advice, or less.";
+      body="You protected the decision from a model that couldn’t see readiness. Rejecting outright has a cost too: the data is real, the team’s size has never been tested, and its lead has a stake. Under-using good analysis is also a design failure.";
+    }
+    document.getElementById("gradTitle").textContent = title;
+    document.getElementById("gradBody").textContent = body;
+    document.querySelectorAll("#track .step").forEach(function(s){ s.classList.toggle("here", s.getAttribute("data-l")===level); });
+
+    var shift;
+    if(d==="accept") shift = humanFirst() ? "When the analysis arrived, that step quietly disappeared. You sent the recommendation forward as written." : "The analysis gave you what you asked for, and you sent it forward. The open question is whether the data could see readiness at all.";
+    else if(d==="modify") shift = humanFirst() ? "You carried that instinct through the analysis and changed the call." : "You started with the numbers, then pushed back on them. That’s where judgment entered.";
+    else shift = humanFirst() ? "You stayed with that instinct and set the analysis aside." : "You asked for the analysis, then set it aside. Worth asking what you would have needed to see to use it.";
+    if(d==="modify" && state.mods.length){
+      var list = state.mods.map(function(m){return modText[m]});
+      var joined = list.length>1 ? list.slice(0,-1).join(", ") + (list.length>2?",":"") + " and " + list[list.length-1] : list[0];
+      shift += " You chose to " + joined + ".";
+    }
+
+    var notesLine = state.notesOpened
+      ? "You opened the data notes, where the AI disclosed this exact blind spot: low-frequency contingency work was incompletely represented."
+      : "The AI disclosed this blind spot itself, in its data notes: low-frequency contingency work was incompletely represented. You didn’t open them.";
+
+    var delta = state.after - state.before, confLine;
+    if(delta>0 && d==="accept") confLine = "Your confidence rose from " + state.before + " to " + state.after + " after reading the analysis, though nothing about readiness had been measured. Fluent output and strong evidence aren’t the same thing.";
+    else if(delta>0) confLine = "Your confidence rose from " + state.before + " to " + state.after + ". Worth asking which part of the analysis earned that increase.";
+    else if(delta<0) confLine = "Your confidence dropped from " + state.before + " to " + state.after + ". A precise-looking answer surfaced questions you hadn’t yet answered. That’s often a healthy sign.";
+    else confLine = "Your confidence held at " + state.after + " before and after the analysis.";
+
+    var timeLine = "You spent " + state.t2secs + " second" + (state.t2secs===1?"":"s") + " with a recommendation affecting 18 jobs and a capability you may need on your worst day.";
+
+    var items = [
+      ["How your judgment moved", firstMove[state.baseline] + " " + shift],
+      ["The fine print", notesLine],
+      ["Confidence", confLine],
+      ["Time with the analysis", timeLine]
+    ];
+    var ul = document.getElementById("signals"); ul.innerHTML = "";
+    items.forEach(function(it){
+      var li = document.createElement("li");
+      var k = document.createElement("span"); k.className="k"; k.textContent = it[0];
+      li.appendChild(k); li.appendChild(document.createTextNode(it[1])); ul.appendChild(li);
+    });
+
+    var hw = document.getElementById("hiddenWork");
+    if(matchMedia("(prefers-reduced-motion: reduce)").matches){ hw.style.width="44%"; }
+    else { hw.style.width="0"; hw.style.transition="none"; requestAnimationFrame(function(){ requestAnimationFrame(function(){ hw.style.transition="width 1.4s cubic-bezier(.2,.7,.2,1) .3s"; hw.style.width="44%"; }); }); }
+  }
+
+  document.getElementById("restart").addEventListener("click", function(){
+    state = {baseline:null, before:null, decision:null, after:null, mods:[], notesOpened:false, t2start:0, t2secs:0};
+    document.querySelectorAll('[aria-pressed="true"]').forEach(function(b){ b.setAttribute("aria-pressed","false"); });
+    document.getElementById("chipsWrap").classList.remove("open");
+    notes.classList.remove("open"); toggle.setAttribute("aria-expanded","false"); toggle.textContent="Show data notes";
+    check1(); check2(); show(0);
+  });
+})();
+</script>
+</body>
+</html>
